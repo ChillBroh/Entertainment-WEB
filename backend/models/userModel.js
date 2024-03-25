@@ -33,6 +33,10 @@ const UserSchema = new Schema({
     enum: ["Organizer", "Admin", "Attendee"],
     required: true,
   },
+  confirmed: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const User = mongoose.model("Users", UserSchema);

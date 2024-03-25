@@ -57,6 +57,10 @@ const loginUser = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
+    //check email confirm
+    if (!user.confirmed) {
+      throw new Error("Please Verify Your Email!");
+    }
 
     //check password
     let passwordMatch;
