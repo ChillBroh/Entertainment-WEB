@@ -18,6 +18,11 @@ router
     security.protect,
     security.restrictTo("Organizer"),
     chatController.deleteChat
+  )
+  .patch(
+    security.protect,
+    security.restrictTo("Organizer"),
+    chatController.updateChat
   );
 
 module.exports = router;

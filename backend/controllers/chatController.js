@@ -32,4 +32,13 @@ const deleteChat = async (req, res, next) => {
   }
 };
 
-module.exports = { createChat, getAllChats, deleteChat };
+const updateChat = async (req, res, next) => {
+  try {
+    const result = await chatService.updateChat(req.body, req.params.id);
+    res.status(201).send(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { createChat, getAllChats, deleteChat, updateChat };

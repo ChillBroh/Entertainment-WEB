@@ -10,12 +10,14 @@ app.use(express.json({ limit: "50mb", extended: true }));
 app.use(cookie());
 
 //routes
-const authRouter = require("./routes/authRoutes");
-const chatRouter = require("./routes/chatRoutes");
+const authRoutes = require("./routes/authRoutes");
+const chatRoutes = require("./routes/chatRoutes");
+const messageRoutes = require("./routes/messageRoutes");
 //base url
 const base = "/api/v1";
-app.use(`${base}/auth`, authRouter);
-app.use(`${base}/chat`, chatRouter);
+app.use(`${base}/auth`, authRoutes);
+app.use(`${base}/chat`, chatRoutes);
+app.use(`${base}/message`, messageRoutes);
 
 //error handling middleware
 app.use(errorHandler);

@@ -46,7 +46,6 @@ const getAllChats = async () => {
 const deleteChat = async (id) => {
   try {
     const [rows] = await db.query("select * from chats where id = ?", [id]);
-    console.log(rows);
     if (rows.length === 0) {
       throw new Error("No chat Found!");
     }
@@ -61,4 +60,21 @@ const deleteChat = async (id) => {
   }
 };
 
-module.exports = { createChat, getAllChats, deleteChat };
+const updateChat = async (newData, id) => {
+  try {
+    const [rows] = await db.query("select * from chats where id = ?", [id]);
+    if (rows.length === 0) {
+      throw new Error("No chat Found!");
+    }
+    const updateQuery = "UPDATE chats SET ? WHERE id = ?";
+    const [result] = await db.query(updateQuery, [newData, id]);
+    if (result.affectedRows === 0) {
+      throw new Error("Chat updating failed!");
+    }
+    return { message: "Chat updated successfully" };
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { createChat, getAllChats, deleteChat, updateChat };
