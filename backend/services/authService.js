@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../db");
 
-const registerUser = async (req, res, next) => {
+const registerUser = async (req) => {
   const { firstName, lastName, email, nic, password, phone, role } = req;
   try {
     const [rows] = await db.query("SELECT * FROM users WHERE email LIKE ?", [
@@ -110,24 +110,4 @@ const createSendToken = (user) => {
   };
 };
 
-const protect = (req) => {
-  try {
-    let token;
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer")
-    ) {
-      token = req.headers.authorization.split(" ")[1];
-    }
-
-    if (!token) {
-      const error = new Error("You are not logged In!");
-      error.statusCode = 401;
-      throw error;
-    }
-  } catch (error) {
-    throw error;
-  }
-};
-
-module.exports = { registerUser, loginUser, protect };
+module.exports = { registerUser, loginUser };

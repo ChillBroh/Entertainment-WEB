@@ -11,9 +11,11 @@ app.use(cookie());
 
 //routes
 const authRouter = require("./routes/authRoutes");
+const chatRouter = require("./routes/chatRoutes");
 //base url
 const base = "/api/v1";
 app.use(`${base}/auth`, authRouter);
+app.use(`${base}/chat`, chatRouter);
 
 //error handling middleware
 app.use(errorHandler);

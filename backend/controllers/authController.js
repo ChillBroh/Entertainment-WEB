@@ -24,23 +24,4 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-const routeProtect = async (req, res, next) => {
-  try {
-    const status = await authService.protect(req);
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
-
-//Give rolebase authentication for protected routes
-const restrictTo = (...roles) => {
-  return (req, res, next) => {
-    if (!roles.includes(req.user.role)) {
-      throw new Error("You don't have permission for this action!");
-    }
-    next();
-  };
-};
-
-module.exports = { register, loginUser, routeProtect };
+module.exports = { register, loginUser };
