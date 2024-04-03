@@ -99,7 +99,7 @@ const LoginFormAttendee = () => {
                 Log in
               </button>
               <Link
-                to={"/signup"}
+                to={"/signup-attendee"}
                 className="text-[#991AAD] hover:text-[#C7ADCE]"
               >
                 <h1 className=" text-center mt-2 ">

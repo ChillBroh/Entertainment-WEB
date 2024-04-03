@@ -4,7 +4,7 @@ import bg from "../Components/Assets/dj-playing-and-mixing-music-in-nightclub-pa
 import { Form, Input } from "antd";
 import Swal from "sweetalert2";
 
-const Registration = () => {
+const AttendeeRegistration = () => {
   const [file, setFile] = useState("");
   const [form] = Form.useForm();
   const onFinish = (values) => {
@@ -221,4 +221,4 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+export default AttendeeRegistration;

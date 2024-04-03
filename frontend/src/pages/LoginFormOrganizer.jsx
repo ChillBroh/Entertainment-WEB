@@ -116,7 +116,7 @@ const LoginFormOrganizer = () => {
                 Log in
               </button>
               <Link
-                to={"/signup"}
+                to={"/signup-organizer"}
                 className="text-[#991AAD] hover:text-[#C7ADCE]"
               >
                 <h1 className=" text-center mt-2 ">
