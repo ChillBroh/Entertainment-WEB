@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const db = require("../db");
 
@@ -18,8 +18,8 @@ const registerUser = async (req) => {
     }
     //password hashing
     const saltRounds = 10;
-    const salt = await bcrypt.genSalt(saltRounds);
-    const hash = await bcrypt.hash(pass, salt);
+    const salt = await bcryptjs.genSalt(saltRounds);
+    const hash = await bcryptjs.hash(pass, salt);
     // Insert the new user into the database
     const insertQuery =
       "INSERT INTO users (fullName, email, phone, img, password) VALUES ( ?, ?, ?, ?, ?)";
@@ -89,7 +89,7 @@ const loginUser = async (email, password) => {
 
     //check password
     let passwordMatch;
-    await bcrypt
+    await bcryptjs
       .compare(password, user.password)
       .then((res) => {
         passwordMatch = res;
