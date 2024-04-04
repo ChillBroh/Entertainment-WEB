@@ -1,4 +1,4 @@
-import { React } from "react";
+import { React, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "../src/pages/Home";
@@ -15,9 +15,12 @@ import CreateEvent from "./pages/CreateEvent";
 import ConfirmationEmailSent from "./Components/commonModals/ConfirmationEmailSent";
 import EmailVerifiedPage from "./Components/commonModals/EmailVerifiedPage";
 import ChatWindow from "./pages/chat/ChatWindow";
+import HeaderHome from "./Layouts/HeaderHome";
+import HeaderAuthenticate from "./Layouts/HeaderAuthenticated";
 function App() {
   const ProtectedRoute = ({ children }) => {
     const isAuthenticated = localStorage.getItem("jsonwebtoken") ? true : false;
+
     if (!isAuthenticated) {
       return <Navigate to="/login" />;
     }

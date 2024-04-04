@@ -1,11 +1,12 @@
 import React from "react";
 import bg from "../Components/Assets/dj-playing-and-mixing-music-in-nightclub-party-at-night-edm-dance-music-club-with-crowd-of-young-people-free-photo.jpg";
 import { Link } from "react-router-dom";
-import Header from "../Layouts/Header";
+import HeaderHome from "../Layouts/HeaderHome";
+
 const Home = () => {
   return (
     <div>
-      <Header />
+      <HeaderHome />
       <div
         className="relative h-[350px] overflow-hidden bg-cover bg-[50%] bg-no-repeat"
         style={{ backgroundImage: `url(${bg})`, height: "94vh" }}
