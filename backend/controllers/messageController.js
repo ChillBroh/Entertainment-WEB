@@ -15,7 +15,7 @@ const createMessage = async (req, res, next) => {
 
 const getAllMessages = async (req, res, next) => {
   try {
-    const result = await messageService.getAllMessages(req.body.chatId);
+    const result = await messageService.getAllMessages(req.params.chatId);
     res.status(201).send(result);
   } catch (error) {
     next(error);

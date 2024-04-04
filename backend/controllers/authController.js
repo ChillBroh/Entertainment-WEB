@@ -1,5 +1,6 @@
 const authService = require("../services/authService");
 const cookie = require("cookie-parser");
+const db = require("../db");
 
 const register = async (req, res, next) => {
   try {
@@ -13,6 +14,18 @@ const register = async (req, res, next) => {
 const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
   try {
+    if (req.body.orgId) {
+      const orgId = await db.query(
+        "SELECT * FROM organizers WHERE organizerId = ?",
+        [`${req.body.orgId}`]
+      );
+      console.log(orgId);
+      if (orgId[0].length == 0) {
+        const error = new Error("Invalid Organizer Id!");
+        error.statusCode = 404;
+        throw error;
+      }
+    }
     const result = await authService.loginUser(email, password);
     res.cookie("jwt", result.token, result.cookieOptions);
     res.status(201).json({

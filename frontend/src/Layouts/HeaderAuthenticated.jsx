@@ -12,10 +12,10 @@ const HeaderAuthenticate = () => {
   return (
     <div>
       <nav
-        class="relative flex w-full items-center justify-between bg-[#562595] shadow-dark-mild dark:bg-body-dark lg:flex-wrap lg:justify-start lg:py-4"
+        className="relative flex w-full items-center justify-between bg-[#562595] shadow-dark-mild dark:bg-body-dark lg:flex-wrap lg:justify-start lg:py-4"
         data-twe-navbar-ref
       >
-        <div class="flex w-full flex-wrap items-center  px-3">
+        <div className="flex w-full flex-wrap items-center  px-3">
           <div>
             <img src={logo} alt="" className="max-h-[30px] ml-5" />
           </div>

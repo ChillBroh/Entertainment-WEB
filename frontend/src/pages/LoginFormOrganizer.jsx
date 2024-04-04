@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 
 const LoginFormOrganizer = () => {
-  const navigate = useNavigate;
+  const navigate = useNavigate();
   const onFinish = async (values) => {
     try {
       const res = await axios.post("http://localhost:5000/api/v1/auth/login", {
@@ -16,19 +16,21 @@ const LoginFormOrganizer = () => {
       });
       console.log(res.data);
 
-      // if (res.data.isAdmin === true) {
-      //   navigate("/admin");
-      // }
-      // if (res.data.isAdmin === false) {
-      //   navigate("/");
-      // }
+      if (res.data.status === "success") {
+        const token = res.data.token;
+        localStorage.setItem("jsonwebtoken", token);
+      }
+      navigate("/chat");
     } catch (err) {
       const res = err.response.status === 401 || 15;
+      if (err.response.data.message === "Please Verify Your Email!") {
+        navigate(`/email-verification/${values.email}`);
+      }
       if (res) {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Invalid Email or Password",
+          text: err.response.data.message,
         });
       }
     }
@@ -72,10 +74,10 @@ const LoginFormOrganizer = () => {
                   required: true,
                   message: "Please input your Id",
                 },
-                {
-                  type: "number",
-                  message: "The input is not a valid Id!!",
-                },
+                // {
+                //   type: "number",
+                //   message: "The input is not a valid Id!!",
+                // },
               ]}
               hasFeedback
             >

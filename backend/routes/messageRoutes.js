@@ -9,7 +9,9 @@ router
     security.protect,
     security.restrictTo("Organizer"),
     messageController.createMessage
-  )
+  );
+router
+  .route("/:chatId")
   .get(security.protect, messageController.getAllMessages);
 
 module.exports = router;

@@ -40,7 +40,7 @@ const registerUser = async (req) => {
   const { fullName, email, pass, phone, role, uploadImg } = req;
   try {
     const [rows] = await db.query("SELECT * FROM users WHERE email LIKE ?", [
-      `%${email}%`,
+      `${email}`,
     ]);
 
     if (rows.length > 0) {
@@ -56,13 +56,14 @@ const registerUser = async (req) => {
     const hash = await bcryptjs.hash(pass, salt);
     // Insert the new user into the database
     const insertQuery =
-      "INSERT INTO users (fullName, email, phone, img, password) VALUES ( ?, ?, ?, ?, ?)";
+      "INSERT INTO users (fullName, email, phone, img, password, role) VALUES ( ?, ?, ?, ?, ?, ?)";
     const insertUser = await db.query(insertQuery, [
       fullName,
       email,
       phone,
       uploadImg,
       hash,
+      role,
     ]);
     const insertUserResult = insertUser[0];
     if (insertUserResult.affectedRows == 0) {

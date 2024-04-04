@@ -1,11 +1,97 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import HeaderAuthenticate from "../../Layouts/HeaderAuthenticated";
 import Footer from "../../Layouts/Footer";
 import logo from "../../Components/Assets/logoHeader.png";
 import organizer from "../../Components/Assets/organizer.jpg";
 import { Divider } from "antd";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const ChatWindow = () => {
+  const [chats, setChats] = useState([]);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const [selectedChat, setSelectedChat] = useState(null);
+
+  useEffect(() => {
+    const getChatDetails = async () => {
+      try {
+        const token = localStorage.getItem("jsonwebtoken");
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const chats = await axios.get(
+          "http://localhost:5000/api/v1/chat/",
+          config
+        );
+        setChats(chats.data);
+        setSelectedChat(chats.data[0]);
+      } catch (error) {
+        console.error("Error fetching chats:", error);
+      }
+    };
+
+    getChatDetails();
+  }, []);
+
+  useEffect(() => {
+    if (selectedChat) {
+      const getMessages = async () => {
+        try {
+          const token = localStorage.getItem("jsonwebtoken");
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          };
+          const chatId = selectedChat.id;
+          const messages = await axios.get(
+            `http://localhost:5000/api/v1/message/${chatId}`,
+            config
+          );
+          setMessages(messages.data);
+          console.log(selectedChat);
+        } catch (error) {
+          console.error("Error fetching messages:", error);
+        }
+      };
+      getMessages();
+    } else {
+      setMessages([]);
+    }
+  }, [selectedChat]);
+
+  const addMessage = async () => {
+    try {
+      const token = localStorage.getItem("jsonwebtoken");
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      const response = await axios.post(
+        `http://localhost:5000/api/v1/message`,
+        { message: newMessage, chatId: selectedChat.id },
+        config
+      );
+      if (response.message) {
+        alert("bye");
+      } else {
+        const newMessageData = response.data;
+        console.log(newMessageData);
+        setMessages([...messages, newMessageData]);
+        setNewMessage("");
+        console.log(messages);
+      }
+    } catch (error) {
+      console.error("Error adding message:", error);
+    }
+  };
+
+  const isOrganizer = true;
+
   return (
     <div>
       <HeaderAuthenticate />
@@ -19,58 +105,50 @@ const ChatWindow = () => {
                 className="max-h-[70px] p-3 text-lg w-full rounded-lg"
               />
             </div>
-            <div className="grid mt-10 grid-rows px-16  text-white">
-              <div className="grid grid-cols-3 items-center ml-16">
-                <div className="text-2xl text-[#C7ADCE] font-extrabold text-center">
-                  Vibe Vault
-                </div>
-                <div className="text-center text text-[#C7ADCE] font-extrabold text-2xl">
-                  DEC 2
-                </div>
-                <div className="flex justify-center">
-                  <img
-                    src={organizer}
-                    alt=""
-                    style={{ width: "70px", height: "70px", cursor: "pointer" }}
-                    className="rounded-full"
-                  />
-                </div>
-              </div>
-              <Divider style={{ borderColor: "white" }} />
-              <div className="grid grid-cols-3 items-center ml-16">
-                <div className="text-2xl text-[#C7ADCE] font-extrabold text-center">
-                  Vibe Vault
-                </div>
-                <div className="text-center text-[#C7ADCE] font-extrabold  text-2xl">
-                  DEC 2
-                </div>
-                <div className="flex justify-center">
-                  <img
-                    src={organizer}
-                    alt=""
-                    style={{ width: "70px", height: "70px", cursor: "pointer" }}
-                    className="rounded-full"
-                  />
-                </div>
-              </div>
-              <Divider style={{ borderColor: "white" }} />
-              <div className="grid grid-cols-3 items-center ml-16">
-                <div className="text-2xl text-[#C7ADCE] font-extrabold text-center">
-                  Vibe Vault
-                </div>
-                <div className="text-center text-[#C7ADCE] font-extrabold  text-2xl">
-                  DEC 2
-                </div>
-                <div className="flex justify-center">
-                  <img
-                    src={organizer}
-                    alt=""
-                    style={{ width: "70px", height: "70px", cursor: "pointer" }}
-                    className="rounded-full"
-                  />
-                </div>
-              </div>
-              <Divider style={{ borderColor: "white" }} />
+            <div
+              style={{ maxHeight: "60vh" }}
+              className="grid mt-10 grid-rows px-16  text-white overflow-y-auto"
+            >
+              {chats.map((chat, index) => (
+                <React.Fragment key={index}>
+                  <button onClick={() => setSelectedChat(chat)}>
+                    <div className="grid grid-cols-3 items-center ml-16">
+                      <div className="text-3xl text-[#C7ADCE] font-extrabold text-center">
+                        {chat.chatName}
+                      </div>
+                      <div className="text-center text-[#C7ADCE] font-extrabold  text-3xl">
+                        {(() => {
+                          const dateString = chat.createdDate;
+                          const date = new Date(dateString);
+                          const month = date.toLocaleString("default", {
+                            month: "short",
+                          });
+                          const day = date.getDate();
+                          return `${month} ${day}`;
+                        })()}
+                      </div>
+                      <div className="flex justify-center">
+                        <img
+                          src={organizer}
+                          alt=""
+                          style={{
+                            width: "120px",
+                            height: "120px",
+                            cursor: "pointer",
+                          }}
+                          className="rounded-full"
+                        />
+                      </div>
+                    </div>
+                  </button>
+                  <Divider style={{ borderColor: "white" }} />
+                </React.Fragment>
+              ))}
+            </div>
+            <div className="text-white text-right">
+              <Link to={"/add-chat"}>
+                <button className="text-5xl  p-16">+</button>
+              </Link>
             </div>
           </div>
           <div className="bg-white grid grid-rows">
@@ -82,55 +160,45 @@ const ChatWindow = () => {
                 style={{ width: "70px", height: "70px", cursor: "pointer" }}
               />{" "}
               <div className="grid ml-3 p-3 grid-rows">
-                <div className="text-2xl font-bold">Vibe Vault</div>
-                <div>4 Messages</div>
+                <div className="text-2xl font-bold">
+                  {selectedChat?.chatName}
+                </div>
+                <div>{messages.length} Messages</div>
               </div>
             </div>
             <div className="h-[70vh] grid grid-rows overflow-y-auto">
-              <div className="p-2">
-                <h1 className="bg-[#562595] rounded-3xl text-md box-border text-white p-3 inline-block">
-                  Hi All...
-                </h1>
-              </div>
-              <div className="p-2">
-                <h1 className="bg-[#562595] rounded-3xl text-md box-border text-white p-3 inline-block">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum
-                  beatae, sapiente praesentium exercitationem officiis doloribus
-                  eveniet molestias tenetur voluptates veniam. Vitae architecto
-                  dolorum quisquam dolores explicabo inventore quaerat error,
-                  voluptatem hic nostrum incidunt nam eius provident sed, nulla
-                  minima facere dicta numquam doloremque saepe. Fugit sit neque
-                  quo quas doloribus.
-                </h1>
-              </div>
-              <div className="p-2">
-                <h1 className="bg-[#562595] rounded-3xl text-md box-border text-white p-3 inline-block">
-                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                  Veniam nisi asperiores sapiente, inventore ad obcaecati
-                  voluptatem maxime itaque at debitis.
-                </h1>
-              </div>
-              <div className="p-2">
-                <h1 className="bg-[#562595] rounded-3xl text-md box-border text-white p-3 inline-block">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel
-                  ab aut exercitationem ipsam illum beatae.
-                </h1>
-              </div>
-              <div className="p-2">
-                <h1 className="bg-[#562595] rounded-3xl text-md box-border text-white p-3 inline-block">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel
-                  ab aut exercitationem ipsam illum beatae.
-                </h1>
-              </div>
-              <div className="p-2">
-                <h1 className="bg-[#562595] rounded-3xl text-md box-border text-white p-3 inline-block">
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vel
-                  ab aut exercitationem ipsam illum beatae.
-                </h1>
-              </div>
+              {messages.length === 0 ? (
+                <div className="text-center text-lg p-10">
+                  There are No messages in this chat
+                </div>
+              ) : (
+                messages.map((message, index) => (
+                  <div className="p-4 max-w-[90%]" key={index}>
+                    <h1 className="bg-[#562595] rounded-3xl text-md box-border text-white p-3 inline-block">
+                      {message.message}
+                    </h1>
+                  </div>
+                ))
+              )}
             </div>
-            <div className="p-2 bg-[#EEF1F4] flex sm:flex-row justify-start">
-              <input type="text" className="w-full p-2" />
+            <div className="p-2  max-w-[90%] ml-5 flex sm:flex-row justify-start">
+              <input
+                type="text"
+                className="w-full border-4 border-[#EEF1F4] mb-16 p-2"
+                disabled={isOrganizer ? false : true}
+                placeholder={
+                  isOrganizer
+                    ? "Enter Your Message"
+                    : "Sending Messaged is not allowed"
+                }
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    addMessage();
+                  }
+                }}
+              />
             </div>
           </div>
         </div>

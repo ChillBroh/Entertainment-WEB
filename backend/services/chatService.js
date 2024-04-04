@@ -1,6 +1,7 @@
 const db = require("../db");
 
 const createChat = async (chatName, email) => {
+  console.log("hi");
   try {
     const [rows] = await db.query("SELECT * FROM chats WHERE chatName LIKE ?", [
       `%${chatName}%`,

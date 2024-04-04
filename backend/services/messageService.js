@@ -29,11 +29,7 @@ const getAllMessages = async (id) => {
     const [rows] = await db.query("SELECT * FROM messages where chatId = ?", [
       id,
     ]);
-    if (rows.length == 0) {
-      return {
-        message: "No messages in this chat!",
-      };
-    }
+
     return rows;
   } catch (error) {
     throw error;

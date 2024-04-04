@@ -17,6 +17,7 @@ import EmailVerifiedPage from "./Components/commonModals/EmailVerifiedPage";
 import ChatWindow from "./pages/chat/ChatWindow";
 import HeaderHome from "./Layouts/HeaderHome";
 import HeaderAuthenticate from "./Layouts/HeaderAuthenticated";
+import AddChats from "./pages/chat/AddChats";
 function App() {
   const ProtectedRoute = ({ children }) => {
     const isAuthenticated = localStorage.getItem("jsonwebtoken") ? true : false;
@@ -35,6 +36,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ChatWindow />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/add-chat"
+            element={
+              <ProtectedRoute>
+                <AddChats />
               </ProtectedRoute>
             }
           />

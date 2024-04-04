@@ -12,10 +12,10 @@ const HeaderHome = () => {
   return (
     <div>
       <nav
-        class="relative flex w-full items-center justify-between bg-[#562595] shadow-dark-mild dark:bg-body-dark lg:flex-wrap lg:justify-start lg:py-4"
+        className="relative flex w-full items-center justify-between bg-[#562595] shadow-dark-mild dark:bg-body-dark lg:flex-wrap lg:justify-start lg:py-4"
         data-twe-navbar-ref
       >
-        <div class="flex w-full flex-wrap items-center justify-between  px-3">
+        <div className="flex w-full flex-wrap items-center justify-between  px-3">
           <div>
             <Link to={"/"}>
               <img src={logo} alt="" className="max-h-[70px] ml-5" />
