@@ -52,6 +52,7 @@ const AttendeeRegistration = () => {
           role,
         }
       );
+      console.log(response);
       Swal.fire(response.data.message, "", "success");
       navigate(`/registered-attendee/${email}`);
     } catch (error) {

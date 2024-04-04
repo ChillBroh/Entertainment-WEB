@@ -73,7 +73,7 @@ const OrganizerRegistration = () => {
     }
   };
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 h-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
       {/* Image */}
       <div className="md:flex md:justify-end">
         <img
@@ -84,7 +84,7 @@ const OrganizerRegistration = () => {
       </div>
 
       {/* Form */}
-      <div className="flex flex-col mt-5 px-2 md:pt-10 lg:pt-0 ">
+      <div className="flex flex-col mt-10 px-2 md:pt-10 lg:pt-0 ">
         <div className="text-3xl text-center">Create organizer Profile</div>
         <div className="mt-6 flex sm:flex-row justify-center">
           <label htmlFor="fileInput">
@@ -123,8 +123,8 @@ const OrganizerRegistration = () => {
         >
           <div className="grid grid-rows-3">
             {/* Business name and contact */}
-            <div className="flex flex-row justify-evenly">
-              <div className="min-w-[250px]">
+            <div className="flex flex-row px-16 justify-between">
+              <div className="min-w-[350px]">
                 <h1 className="text-lg mb-2 ml-2">Organization Name</h1>
                 <Form.Item
                   name={"name"}
@@ -139,7 +139,7 @@ const OrganizerRegistration = () => {
                   <Input placeholder="Organization Name" />
                 </Form.Item>
               </div>
-              <div className="min-w-[250px]">
+              <div className="min-w-[350px]">
                 <h1 className="text-lg mb-2 ml-2">Contact No</h1>
                 <Form.Item
                   name={"phone"}
@@ -156,7 +156,7 @@ const OrganizerRegistration = () => {
               </div>
             </div>
             {/* email  */}
-            <div className="min-w-[250px] px-16">
+            <div className="min-w-[350px] px-16">
               <h1 className="text-lg mb-2 ml-2">Business Email</h1>
               <Form.Item
                 name={"email"}
@@ -173,7 +173,7 @@ const OrganizerRegistration = () => {
               </Form.Item>
             </div>
             {/* address */}
-            <div className="min-w-[250px] px-16">
+            <div className="min-w-[350px] px-16">
               <h1 className="text-lg mb-2 ml-2">Business Address</h1>
               <Form.Item
                 name={"address"}
@@ -190,8 +190,8 @@ const OrganizerRegistration = () => {
               </Form.Item>
             </div>
             {/* person1 */}
-            <div className="flex flex-row justify-evenly">
-              <div className="min-w-[250px]">
+            <div className="flex flex-row px-16 justify-between">
+              <div className="min-w-[350px]">
                 <h1 className="text-lg mb-2 ml-2">Contact Person 1</h1>
                 <Form.Item
                   name={"person1"}
@@ -206,7 +206,7 @@ const OrganizerRegistration = () => {
                   <Input placeholder="Person 1 Name" />
                 </Form.Item>
               </div>
-              <div className="min-w-[250px]">
+              <div className="min-w-[350px]">
                 <h1 className="text-lg mb-2 ml-2">Contact No</h1>
                 <Form.Item
                   name={"phone1"}
@@ -226,8 +226,8 @@ const OrganizerRegistration = () => {
               </div>
             </div>
             {/* person2 */}
-            <div className="flex flex-row justify-evenly">
-              <div className="min-w-[250px]">
+            <div className="flex flex-row px-16 justify-between">
+              <div className="min-w-[350px]">
                 <h1 className="text-lg mb-2 ml-2">Contact Person 2</h1>
                 <Form.Item
                   name={"person2"}
@@ -242,7 +242,7 @@ const OrganizerRegistration = () => {
                   <Input placeholder="Person 2 Name" />
                 </Form.Item>
               </div>
-              <div className="min-w-[250px]">
+              <div className="min-w-[350px]">
                 <h1 className="text-lg mb-2 ml-2">Contact No</h1>
                 <Form.Item
                   name={"phone2"}
@@ -262,8 +262,8 @@ const OrganizerRegistration = () => {
               </div>
             </div>
             {/* password */}
-            <div className="flex flex-row justify-evenly">
-              <div className="min-w-[250px] max-w-[250px]">
+            <div className="flex flex-row px-16 justify-between">
+              <div className="min-w-[350px] ">
                 <h1 className="text-lg mb-2 ml-2">Password</h1>
                 <Form.Item
                   name="password"
@@ -278,7 +278,7 @@ const OrganizerRegistration = () => {
                   <Input.Password placeholder="Password" />
                 </Form.Item>
               </div>
-              <div className="min-w-[250px] max-w-[250px]">
+              <div className="min-w-[350px] ">
                 <h1 className="text-lg mb-2 ml-2">Confirm Password</h1>
                 <Form.Item
                   name="confirm"
