@@ -8,7 +8,7 @@ const app = express();
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: "50mb", extended: true }));
 app.use(cookie());
-
+app.use(cors());
 //routes
 const authRoutes = require("./routes/authRoutes");
 const chatRoutes = require("./routes/chatRoutes");
@@ -23,7 +23,7 @@ app.use(`${base}/message`, messageRoutes);
 app.use(errorHandler);
 
 //port
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 //connect to db
 const connectDb = require("./db");

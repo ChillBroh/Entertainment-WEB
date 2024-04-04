@@ -3,18 +3,24 @@ import React from "react";
 import bg from "../Components/Assets/dj-playing-and-mixing-music-in-nightclub-party-at-night-edm-dance-music-club-with-crowd-of-young-people-free-photo.jpg";
 import { Form, Input } from "antd";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import uploadFileToFirebase from "../utils/UploadFilesToFIreBase";
+import axios from "axios";
 
 const AttendeeRegistration = () => {
   const [file, setFile] = useState("");
   const [form] = Form.useForm();
-  const onFinish = (values) => {
-    const name = values.name.trim();
+  const navigate = useNavigate();
+  const onFinish = async (values) => {
+    const fullName = values.name.trim();
     const email = values.email.trim();
     const nic = values.nic.trim();
     const phone = values.phone.trim();
     const pass = values.password.trim();
+    let uploadImg = "No Image";
+    const role = "Attendee";
     if (
-      name === "" ||
+      fullName === "" ||
       email === "" ||
       nic === "" ||
       phone === "" ||
@@ -28,8 +34,30 @@ const AttendeeRegistration = () => {
       });
       return;
     }
-    console.log("Success:", values);
-    console.log(file);
+    try {
+      if (file) {
+        const response = await uploadFileToFirebase(file);
+        uploadImg = response;
+      }
+
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/auth/register",
+        {
+          fullName,
+          email,
+          nic,
+          phone,
+          uploadImg,
+          pass,
+          role,
+        }
+      );
+      Swal.fire(response.data.message, "", "success");
+      navigate(`/registered-attendee/${email}`);
+    } catch (error) {
+      console.log(error.response.data);
+      Swal.fire(error.response.data.message, "", "error");
+    }
   };
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
@@ -89,6 +117,7 @@ const AttendeeRegistration = () => {
                   rules={[
                     {
                       required: true,
+                      message: "Please Enter Your Name",
                     },
                   ]}
                   hasFeedback
@@ -105,6 +134,7 @@ const AttendeeRegistration = () => {
                     {
                       type: "email",
                       required: true,
+                      message: "Please Enter Your Email",
                     },
                   ]}
                   hasFeedback
@@ -121,6 +151,7 @@ const AttendeeRegistration = () => {
                   rules={[
                     {
                       required: true,
+                      message: "Please Enter Your NIC",
                     },
                   ]}
                   hasFeedback
@@ -135,6 +166,7 @@ const AttendeeRegistration = () => {
                   rules={[
                     {
                       required: true,
+                      message: "Please Enter Your Contact No",
                     },
                   ]}
                   hasFeedback

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const db = require("../db");
 
 const registerUser = async (req) => {
-  const { firstName, lastName, email, nic, password, phone, role } = req;
+  const { fullName, email, pass, phone, role, uploadImg } = req;
   try {
     const [rows] = await db.query("SELECT * FROM users WHERE email LIKE ?", [
       `%${email}%`,
@@ -19,23 +19,46 @@ const registerUser = async (req) => {
     //password hashing
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
-    const hash = await bcrypt.hash(password, salt);
-
+    const hash = await bcrypt.hash(pass, salt);
     // Insert the new user into the database
     const insertQuery =
-      "INSERT INTO users (firstName, lastName, email, nic, phone, password, role) VALUES (?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO users (fullName, email, phone, img, password) VALUES ( ?, ?, ?, ?, ?)";
     const insertUser = await db.query(insertQuery, [
-      firstName,
-      lastName,
+      fullName,
       email,
-      nic,
       phone,
+      uploadImg,
       hash,
-      role,
     ]);
-    if (insertUser.affectedRows == 0) {
-      throw new Error("User Registration Failed Due to Datebase Error!");
+    const insertUserResult = insertUser[0];
+    if (insertUserResult.affectedRows == 0) {
+      throw new Error("User Registration Failed Due to Database Error!");
     }
+
+    const userId = insertUserResult.insertId;
+    if (role === "Attendee") {
+      const nic = req.nic;
+      const insertQueryAttendee =
+        "INSERT INTO attendees (user_id,nic, role) VALUES (?,?, 'Attendee')";
+      await db.query(insertQueryAttendee, [userId, nic]);
+    } else if (role === "Organizer") {
+      const insertQueryOrganizer =
+        "INSERT INTO organizers (user_id,organizerId, address, person1, phone1, person2, phone2, role) VALUES (?, ?, ?, ?, ?, ?, ?, 'Organizer')";
+      await db.query(insertQueryOrganizer, [
+        userId,
+        req.organizerId,
+        req.address,
+        req.person1,
+        req.phone1,
+        req.person2,
+        req.phone2,
+      ]);
+    } else if (role === "Admin") {
+      const insertQueryAttendee =
+        "INSERT INTO admins (user_id, role) VALUES (?, 'Admin')";
+      await db.query(insertQueryAttendee, [userId]);
+    }
+
     return {
       message: "User Registered Successfully",
     };
