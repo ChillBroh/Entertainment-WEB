@@ -1,19 +1,26 @@
 import React from "react";
-import bg from "../Components/Assets/logo.png";
+import bg from "../Assets/logo.png";
 import { Form, Input } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
-import resetPass from "../Components/Assets/resetPass.jpg";
+import enterOTP from "../Assets/enterOTP.jpg";
 
-const ResetPassword = () => {
+const OTPVerification = () => {
   const navigate = useNavigate();
+  const params = useParams();
   const onFinish = async (values) => {
     try {
-      const res = await axios.get(
-        `http://localhost:5000/api/v1/auth/reset-pass/${values.email}`
+      const email = params.email;
+      const otp = values.code;
+      const res = await axios.post(
+        `http://localhost:5000/api/v1/auth/reset-pass`,
+        {
+          email,
+          otp,
+        }
       );
-      navigate(`/otp-sent/${values.email}`);
+      // navigate(`/confirmation-sent/${values.email}`);
     } catch (err) {
       Swal.fire({
         icon: "error",
@@ -33,33 +40,35 @@ const ResetPassword = () => {
       </div>
       <div className="flex flex-col mt-24 px-12 md:pt-10 lg:pt-0 lg:px-20">
         <div className="text-center mb-2">
-          <h1 className="text-5xl">Reset Password</h1>
+          <h1 className="text-5xl">OTP Verification</h1>
         </div>
         <div className="pt-5 ">
-          <img src={resetPass} alt="" />
+          <img src={enterOTP} alt="" />
         </div>
         <div className="pt-5 text-lg text-center">
-          Enter your Email below to send Verification Code
+          We want to make sure it's really you. In order to verify, your Email,
+          enter the verification code that was sent to{" "}
+          <span className="text-[#562595]">{params.email}</span>
         </div>
-        <div className="mt-5">
+        <div className="mt-5 px-16">
           <Form name="login" onFinish={onFinish} autoComplete="off">
-            <h1 className="text-lg ml-2">Email</h1>
+            <h1 className="text-lg ml-2">Verfication Code</h1>
             <Form.Item
-              name="email"
+              name="code"
               rules={[
                 {
                   required: true,
-                  message: "Please input your email!",
+                  message: "Please input code!",
                 },
                 {
-                  type: "email",
-                  message: "The input is not valid E-mail!",
+                  type: "Number",
+                  message: "The input is not valid!",
                 },
               ]}
               hasFeedback
             >
               <Input
-                placeholder="email"
+                placeholder="Verification Code"
                 className="w-full rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
               />
             </Form.Item>
@@ -71,7 +80,7 @@ const ResetPassword = () => {
                 data-twe-ripple-init
                 data-twe-ripple-color="light"
               >
-                Send Verification Code
+                Verify
               </button>
             </div>
           </Form>
@@ -82,4 +91,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default OTPVerification;

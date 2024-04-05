@@ -36,6 +36,24 @@ const sendEmailagain = async (email) => {
   }
 };
 
+//email send with token
+const sendToken = async (email) => {
+  try {
+    //check user
+    const [rows] = await db.query("SELECT * FROM users WHERE email LIKE ?", [
+      `${email}`,
+    ]);
+    if (rows.length === 0) {
+      throw new Error("User Not Found!");
+    }
+    const otp = Math.floor(10000 + Math.random() * 90000);
+    const insertQueryOtp = "INSERT INTO otp (otp, userEmail) VALUES (?, ?)";
+    const insertOtp = await db.query(insertQueryOtp, [otp, email]);
+    await sendEmail(email, "Reset Password OTP", otp.toString());
+  } catch (error) {
+    throw error;
+  }
+};
 const registerUser = async (req) => {
   const { fullName, email, pass, phone, role, uploadImg } = req;
   try {
@@ -179,7 +197,28 @@ const emailConfirm = async (email, token) => {
     throw error;
   }
 };
+//otp confirmation
+const otpConfirm = async (email, otp) => {
+  try {
+    const otpCheck = await db.query(
+      "SELECT * FROM otp WHERE userEmail LIKE ? and otp LIKE ?",
+      [`${email}`, `${otp}`]
+    );
 
+    if (otpCheck[0].length === 0) {
+      throw new Error("Invalid OTP!");
+    }
+    if (otpCheck[0].length > 0) {
+      await db.query("delete FROM otp WHERE userEmail LIKE ? and otp LIKE ?", [
+        `${email}`,
+        `${otp}`,
+      ]);
+      return "Email Confirmation Success";
+    }
+  } catch (error) {
+    throw error;
+  }
+};
 //created token
 const signToken = (email, confirmed, role) => {
   return jwt.sign({ email, confirmed, role }, process.env.JWT_SECRET, {
@@ -211,4 +250,6 @@ module.exports = {
   loginUser,
   emailConfirm,
   sendEmailagain,
+  sendToken,
+  otpConfirm,
 };

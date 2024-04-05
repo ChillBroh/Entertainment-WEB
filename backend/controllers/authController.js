@@ -48,13 +48,35 @@ const sendEmailVerify = async (req, res, next) => {
     next(error);
   }
 };
+
+const sendTokenVerify = async (req, res, next) => {
+  const { email } = req.params;
+  try {
+    const result = await authService.sendToken(email);
+    res.status(201).json({
+      message: "Verification Email Has sent!",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+const otpVerify = async (req, res, next) => {
+  const { email, otp } = req.body;
+  try {
+    const result = await authService.otpConfirm(email, otp);
+    res.status(201).json({
+      result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 const emailVerify = async (req, res, next) => {
   const { email, token } = req.params;
   try {
     const result = await authService.emailConfirm(email, token);
     res.status(201).json({
-      status: result.status,
-      token: result.token,
+      result,
     });
   } catch (error) {
     next(error);
@@ -75,4 +97,13 @@ const logout = (req, res, next) => {
     next(error);
   }
 };
-module.exports = { register, loginUser, emailVerify, sendEmailVerify, logout };
+
+module.exports = {
+  register,
+  loginUser,
+  emailVerify,
+  sendEmailVerify,
+  logout,
+  sendTokenVerify,
+  otpVerify,
+};

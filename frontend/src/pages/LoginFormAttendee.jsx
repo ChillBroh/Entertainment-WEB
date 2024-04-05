@@ -16,7 +16,9 @@ const LoginFormAttendee = () => {
       console.log(res.data);
       if (res.data.status === "success") {
         const token = res.data.token;
+        const role = res.data.role;
         localStorage.setItem("jsonwebtoken", token);
+        localStorage.setItem("role", role);
       }
       navigate("/chat");
     } catch (err) {

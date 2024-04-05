@@ -18,6 +18,7 @@ import ChatWindow from "./pages/chat/ChatWindow";
 import HeaderHome from "./Layouts/HeaderHome";
 import HeaderAuthenticate from "./Layouts/HeaderAuthenticated";
 import AddChats from "./pages/chat/AddChats";
+import OTPVerification from "./Components/commonModals/OTPVerification";
 function App() {
   const ProtectedRoute = ({ children }) => {
     const isAuthenticated = localStorage.getItem("jsonwebtoken") ? true : false;
@@ -76,6 +77,7 @@ function App() {
             path="/confirmation-sent/:email"
             element={<ConfirmationEmailSent />}
           />
+          <Route path="otp-sent/:email" element={<OTPVerification />} />
           <Route
             path="/auth/:email/verify/:token"
             element={<EmailVerifiedPage />}

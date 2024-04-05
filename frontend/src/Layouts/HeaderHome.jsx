@@ -28,6 +28,7 @@ const HeaderHome = () => {
       console.log(res);
 
       localStorage.removeItem("jsonwebtoken");
+      localStorage.removeItem("role");
       Swal.fire({
         icon: "success",
         title: "",
