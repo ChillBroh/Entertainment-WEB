@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import bg from "../Assets/logo.png";
 import { Form, Input } from "antd";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
 import emailConfirm from "../Assets/emailconfirm.jpg";
@@ -13,7 +13,7 @@ const EmailConfirmation = () => {
   const params = useParams();
   const onFinish = async (values) => {
     isLoading(true);
-    if (params.email != values.email) {
+    if (params.email !== values.email) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -25,6 +25,7 @@ const EmailConfirmation = () => {
       const res = await axios.get(
         `http://localhost:5000/api/v1/auth/verify/${values.email}`
       );
+      console.log(res.data);
       isLoading(false);
       navigate(`/confirmation-sent/${values.email}`);
     } catch (err) {

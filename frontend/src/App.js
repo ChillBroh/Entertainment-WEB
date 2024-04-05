@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "../src/pages/Home";
@@ -15,8 +15,6 @@ import CreateEvent from "./pages/CreateEvent";
 import ConfirmationEmailSent from "./Components/commonModals/ConfirmationEmailSent";
 import EmailVerifiedPage from "./Components/commonModals/EmailVerifiedPage";
 import ChatWindow from "./pages/chat/ChatWindow";
-import HeaderHome from "./Layouts/HeaderHome";
-import HeaderAuthenticate from "./Layouts/HeaderAuthenticated";
 import AddChats from "./pages/chat/AddChats";
 import OTPVerification from "./Components/commonModals/OTPVerification";
 import PasswordResetForm from "./pages/PasswordResetForm";

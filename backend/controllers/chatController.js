@@ -5,6 +5,7 @@ const createChat = async (req, res, next) => {
   try {
     const decode = security.decode(req.headers.authorization);
     const result = await chatService.createChat(
+      req.body.chatImg,
       req.body.chatName,
       decode.email
     );

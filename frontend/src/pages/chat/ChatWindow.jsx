@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import HeaderAuthenticate from "../../Layouts/HeaderAuthenticated";
 import Footer from "../../Layouts/Footer";
-import organizer from "../../Components/Assets/organizer.jpg";
 import { Divider } from "antd";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -88,7 +87,7 @@ const ChatWindow = () => {
         config
       );
       if (response.message) {
-        alert("bye");
+        alert("Empty");
       } else {
         const newMessageData = response.data;
         console.log(newMessageData);
@@ -148,7 +147,7 @@ const ChatWindow = () => {
                           </div>
                           <div className="flex justify-center">
                             <img
-                              src={organizer}
+                              src={chat.chatImg}
                               alt=""
                               style={{
                                 width: "100px",
@@ -175,7 +174,7 @@ const ChatWindow = () => {
               <div className="bg-white grid grid-rows">
                 <div className="p-2 bg-[#EEF1F4] flex sm:flex-row justify-start">
                   <img
-                    src={organizer}
+                    src={selectedChat.chatImg}
                     alt=""
                     className="rounded-full"
                     style={{ width: "70px", height: "70px", cursor: "pointer" }}

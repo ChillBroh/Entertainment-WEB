@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import bg from "../Assets/logo.png";
 import { Form, Input } from "antd";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
 import enterOTP from "../Assets/enterOTP.jpg";
@@ -23,6 +23,7 @@ const OTPVerification = () => {
           otp,
         }
       );
+      console.log(res.data);
       isLoading(false);
       navigate(`/reset-password/${email}`);
     } catch (err) {

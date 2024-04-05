@@ -3,10 +3,12 @@ import { Button, Form, Input } from "antd";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../Components/commonModals/Loader";
+import uploadFileToFirebase from "../../utils/UploadFilesToFIreBase";
 
 const AddChats = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [file, setFile] = useState("");
   const onFinish = async (values) => {
     setLoading(true);
     const token = localStorage.getItem("jsonwebtoken");
@@ -14,11 +16,16 @@ const AddChats = () => {
     const headers = {
       Authorization: `Bearer ${token}`,
     };
+    let uploadImg;
+    if (file) {
+      const response = await uploadFileToFirebase(file);
+      uploadImg = response;
+    }
     const chatName = values.username;
     try {
       const res = await axios.post(
         "http://localhost:5000/api/v1/chat/",
-        { chatName: chatName },
+        { chatImg: uploadImg, chatName: chatName },
         {
           headers,
         }
@@ -38,6 +45,31 @@ const AddChats = () => {
         <Loader />
       ) : (
         <div>
+          <label htmlFor="fileInput">
+            <img
+              className="rounded-full"
+              src={
+                file
+                  ? URL.createObjectURL(file)
+                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+              }
+              alt="avatar"
+              style={{ width: "120px", height: "120px", cursor: "pointer" }}
+            />
+          </label>
+          <input
+            type="file"
+            id="fileInput"
+            name="file"
+            style={{ display: "none" }}
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files[0];
+              setFile(file);
+            }}
+            required
+          />
+
           <Form
             name="basic"
             labelCol={{

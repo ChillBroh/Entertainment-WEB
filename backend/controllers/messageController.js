@@ -1,5 +1,4 @@
 const messageService = require("../services/messageService");
-const security = require("../utils/security");
 
 const createMessage = async (req, res, next) => {
   try {

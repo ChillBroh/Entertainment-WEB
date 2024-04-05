@@ -1,7 +1,6 @@
 const db = require("../db");
 
-const createChat = async (chatName, email) => {
-  console.log("hi");
+const createChat = async (chatImg, chatName, email) => {
   try {
     const [rows] = await db.query("SELECT * FROM chats WHERE chatName LIKE ?", [
       `%${chatName}%`,
@@ -13,8 +12,9 @@ const createChat = async (chatName, email) => {
     // Insert a new chat record into the database
     const currentDate = new Date().toISOString().slice(0, 10);
     const insertQuery =
-      "INSERT INTO chats (chatName, creator, createdDate) VALUES (?, ?, ?)";
+      "INSERT INTO chats (chatImg, chatName, creator, createdDate) VALUES (?,?, ?, ?)";
     const [result] = await db.query(insertQuery, [
+      chatImg,
       chatName,
       email,
       currentDate,
@@ -26,6 +26,7 @@ const createChat = async (chatName, email) => {
     const newChatId = result.insertId;
     return {
       id: newChatId,
+      image: chatImg,
       creator: email,
       createdDate: currentDate,
       chatName: chatName,

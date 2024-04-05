@@ -20,7 +20,6 @@ const sendEmailagain = async (email) => {
       "SELECT * FROM token WHERE userEmail LIKE ?",
       [`${email}`]
     );
-    console.log(tokenCheck[0]);
     if (tokenCheck[0].length > 0) {
       throw new Error("Confirmation Email already sent to this email!");
     }
@@ -87,7 +86,6 @@ const registerUser = async (req) => {
     if (insertUserResult.affectedRows == 0) {
       throw new Error("User Registration Failed Due to Database Error!");
     }
-    console.log("hi");
 
     //update user sub tables
     const userId = insertUserResult.insertId;
@@ -146,7 +144,6 @@ const loginUser = async (email, password, organizerId = null) => {
         "SELECT * FROM organizers WHERE organizerId = ?",
         [`${organizerId}`]
       );
-      console.log(orgId);
       if (orgId[0].length == 0) {
         const error = new Error("Invalid Organizer Id!");
         error.statusCode = 404;
@@ -244,7 +241,6 @@ const resetPassword = async (email, password) => {
     [`${hash}`, `${email}`]
   );
 
-  console.log(resetQuery[0]);
   if (resetQuery[0].affectedRows === 0) {
     throw new Error("Password Reset Failed!");
   }

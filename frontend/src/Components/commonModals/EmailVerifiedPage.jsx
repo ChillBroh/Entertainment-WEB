@@ -9,7 +9,6 @@ import Loader from "./Loader";
 const EmailVerifiedPage = () => {
   const [loading, isLoading] = useState(true);
   const { email, token } = useParams();
-  const [verificationStatus, setVerificationStatus] = useState("");
 
   useEffect(() => {
     const verifyEmail = async () => {
@@ -17,16 +16,11 @@ const EmailVerifiedPage = () => {
         const response = await axios.get(
           `http://localhost:5000/api/v1/auth/${email}/verify/${token}`
         );
-        if (response.status === 200) {
-          setVerificationStatus("success");
-        } else {
-          setVerificationStatus("error");
-        }
+        console.log(response.status);
         isLoading(false);
       } catch (error) {
         isLoading(false);
         console.error("Error verifying email:", error);
-        setVerificationStatus("error");
       }
     };
 
