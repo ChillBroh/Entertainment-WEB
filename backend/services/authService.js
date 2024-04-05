@@ -249,6 +249,27 @@ const resetPassword = async (email, password) => {
     throw new Error("Password Reset Failed!");
   }
 };
+//recover organizer
+const recoverOrganizer = async (email) => {
+  try {
+    //check user
+    const [rows] = await db.query(
+      "SELECT * FROM users WHERE email LIKE ? and role = 'Organizer'",
+      [`${email}`]
+    );
+    if (rows.length === 0) {
+      throw new Error("Organizer Not Found!");
+    }
+
+    const getOrgIdQuery =
+      "SELECT o.organizerId FROM organizers o LEFT JOIN users u ON u.id=o.user_id where u.email like ?";
+    const getOrgId = await db.query(getOrgIdQuery, [`${email}`]);
+    const id = `Organizer Id : ${getOrgId[0][0].organizerId}`;
+    await sendEmail(email, "Verify Email", id);
+  } catch (error) {
+    throw error;
+  }
+};
 //created token
 const signToken = (email, confirmed, role) => {
   return jwt.sign({ email, confirmed, role }, process.env.JWT_SECRET, {
@@ -283,4 +304,5 @@ module.exports = {
   sendToken,
   otpConfirm,
   resetPassword,
+  recoverOrganizer,
 };

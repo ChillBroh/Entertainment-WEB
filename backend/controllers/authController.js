@@ -111,6 +111,18 @@ const resetPassword = async (req, res, next) => {
   }
 };
 
+const recoverOrganizer = async (req, res, next) => {
+  const { email } = req.params;
+  try {
+    const result = await authService.recoverOrganizer(email);
+    res.status(200).json({
+      result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   register,
   loginUser,
@@ -120,4 +132,5 @@ module.exports = {
   sendTokenVerify,
   otpVerify,
   resetPassword,
+  recoverOrganizer,
 };

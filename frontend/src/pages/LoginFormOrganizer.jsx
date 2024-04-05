@@ -104,12 +104,20 @@ const LoginFormOrganizer = () => {
                 className="w-full rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
               />
             </Form.Item>
-            <Link
-              to={"/reset-password"}
-              className="text-[#991AAD] hover:text-[#C7ADCE]"
-            >
-              Forgot Password
-            </Link>
+            <div className="flex flex-row justify-between">
+              <Link
+                to={"/reset-password"}
+                className="text-[#991AAD] hover:text-[#C7ADCE]"
+              >
+                Forgot Password
+              </Link>
+              <Link
+                to={"/recover-id"}
+                className="text-[#991AAD] hover:text-[#C7ADCE]"
+              >
+                Recover Organizer ID
+              </Link>
+            </div>
             <div>
               <button
                 type="submit"

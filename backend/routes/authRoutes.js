@@ -10,5 +10,6 @@ router.route("/reset-pass/:email").get(authController.sendTokenVerify);
 router.route("/reset-pass/otp").post(authController.otpVerify);
 router.route("/reset-pass").post(authController.resetPassword);
 router.route("/logout").get(authController.logout);
+router.route("/recover-organizer/:email").get(authController.recoverOrganizer);
 
 module.exports = router;

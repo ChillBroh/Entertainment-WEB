@@ -21,6 +21,8 @@ import AddChats from "./pages/chat/AddChats";
 import OTPVerification from "./Components/commonModals/OTPVerification";
 import PasswordResetForm from "./pages/PasswordResetForm";
 import PasswordRecovered from "./Components/commonModals/PasswordRecovered";
+import RecoverOrganizerId from "./pages/RecoverOrganizerId";
+import OrganizerRecovered from "./Components/commonModals/OrganizerRecovered";
 function App() {
   const ProtectedRoute = ({ children }) => {
     const isAuthenticated = localStorage.getItem("jsonwebtoken") ? true : false;
@@ -88,6 +90,8 @@ function App() {
             element={<PasswordResetForm />}
           />
           <Route path="/password-recoverd" element={<PasswordRecovered />} />
+          <Route path="/recover-id" element={<RecoverOrganizerId />} />
+          <Route path="/organizer-recovered" element={<OrganizerRecovered />} />
         </Routes>
       </BrowserRouter>
     </div>
