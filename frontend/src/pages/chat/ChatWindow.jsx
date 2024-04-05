@@ -127,41 +127,47 @@ const ChatWindow = () => {
                   style={{ maxHeight: "50vh" }}
                   className="grid mt-10 grid-rows px-16  text-white overflow-y-auto"
                 >
-                  {chats.map((chat, index) => (
-                    <React.Fragment key={index}>
-                      <button onClick={() => setSelectedChat(chat)}>
-                        <div className="grid grid-cols-3 items-center ml-16">
-                          <div className="text-2xl text-[#C7ADCE] font-extrabold text-center">
-                            {chat.chatName}
+                  {chats.length === 0 ? (
+                    <div className="text-center text-lg p-10">
+                      There are No Events in the List
+                    </div>
+                  ) : (
+                    chats.map((chat, index) => (
+                      <React.Fragment key={index}>
+                        <button onClick={() => setSelectedChat(chat)}>
+                          <div className="grid grid-cols-3 items-center ml-16">
+                            <div className="text-2xl text-[#C7ADCE] font-extrabold text-center">
+                              {chat.chatName}
+                            </div>
+                            <div className="text-center text-[#C7ADCE] font-extrabold  text-2xl">
+                              {(() => {
+                                const dateString = chat.createdDate;
+                                const date = new Date(dateString);
+                                const month = date.toLocaleString("default", {
+                                  month: "short",
+                                });
+                                const day = date.getDate();
+                                return `${month} ${day}`;
+                              })()}
+                            </div>
+                            <div className="flex justify-center">
+                              <img
+                                src={chat.chatImg}
+                                alt=""
+                                style={{
+                                  width: "100px",
+                                  height: "100px",
+                                  cursor: "pointer",
+                                }}
+                                className="rounded-full"
+                              />
+                            </div>
                           </div>
-                          <div className="text-center text-[#C7ADCE] font-extrabold  text-2xl">
-                            {(() => {
-                              const dateString = chat.createdDate;
-                              const date = new Date(dateString);
-                              const month = date.toLocaleString("default", {
-                                month: "short",
-                              });
-                              const day = date.getDate();
-                              return `${month} ${day}`;
-                            })()}
-                          </div>
-                          <div className="flex justify-center">
-                            <img
-                              src={chat.chatImg}
-                              alt=""
-                              style={{
-                                width: "100px",
-                                height: "100px",
-                                cursor: "pointer",
-                              }}
-                              className="rounded-full"
-                            />
-                          </div>
-                        </div>
-                      </button>
-                      <Divider style={{ borderColor: "white" }} />
-                    </React.Fragment>
-                  ))}
+                        </button>
+                        <Divider style={{ borderColor: "white" }} />
+                      </React.Fragment>
+                    ))
+                  )}
                 </div>
                 {isOrganizer && (
                   <div className="text-white text-right">
@@ -174,7 +180,11 @@ const ChatWindow = () => {
               <div className="bg-white grid grid-rows">
                 <div className="p-2 bg-[#EEF1F4] flex sm:flex-row justify-start">
                   <img
-                    src={selectedChat.chatImg}
+                    src={
+                      selectedChat?.chatImg
+                        ? selectedChat?.chatImg
+                        : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                    }
                     alt=""
                     className="rounded-full"
                     style={{ width: "70px", height: "70px", cursor: "pointer" }}

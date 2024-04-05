@@ -34,7 +34,9 @@ const HeaderHome = () => {
         title: "",
         text: "Successfully LoggedOut!!",
       });
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       console.error("Logout failed:", error);
       // Show error message

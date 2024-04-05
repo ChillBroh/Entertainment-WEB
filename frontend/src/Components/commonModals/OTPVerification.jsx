@@ -52,17 +52,24 @@ const OTPVerification = () => {
             <div className="text-center mb-2">
               <h1 className="text-5xl">OTP Verification</h1>
             </div>
-            <div className="pt-5 ">
-              <img src={enterOTP} alt="" />
+            <div className="pt-5 max-h-[400px] flex justify-center">
+              <img src={enterOTP} alt="" className="max-h-[350px]" />
             </div>
-            <div className="pt-5 text-lg text-center">
+            <div className="mt-10 px-16 mb-12 text-lg text-center">
               We want to make sure it's really you. In order to verify, your
-              Email, enter the verification code that was sent to{" "}
-              <span className="text-[#562595]">{params.email}</span>
+              Email, enter the verification code that was sent to
+              <span className="text-[#562595]"> {params.email}</span>
             </div>
             <div className="mt-5 px-16">
-              <Form name="login" onFinish={onFinish} autoComplete="off">
-                <h1 className="text-lg ml-2">Verfication Code</h1>
+              <Form
+                name="login"
+                onFinish={onFinish}
+                autoComplete="off"
+                className="px-24"
+              >
+                <h1 className="text-lg ml-2 mb-2 font-bold">
+                  Verfication Code
+                </h1>
                 <Form.Item
                   name="code"
                   rules={[
@@ -78,7 +85,7 @@ const OTPVerification = () => {
                   hasFeedback
                 >
                   <Input
-                    placeholder="Verification Code"
+                    placeholder="Enter Verification Code"
                     className="w-full rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
                   />
                 </Form.Item>

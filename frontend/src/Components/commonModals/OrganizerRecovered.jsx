@@ -6,13 +6,6 @@ import bg from "../Assets/logo.png";
 const OrganizerRecovered = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
-      <div className="">
-        <img
-          src={bg}
-          alt="login dj"
-          className="object-cover h-full w-full md:max-h-full md:w-auto"
-        />
-      </div>
       <div className="flex flex-col mt-24  md:pt-10 lg:pt-0 lg:px-20">
         <div className="text-center mb-10">
           <h1 className="text-5xl">Recovered</h1>
@@ -38,6 +31,13 @@ const OrganizerRecovered = () => {
             </button>
           </div>
         </Link>
+      </div>
+      <div className="">
+        <img
+          src={bg}
+          alt="login dj"
+          className="object-cover h-full w-full md:max-h-full md:w-auto"
+        />
       </div>
     </div>
   );

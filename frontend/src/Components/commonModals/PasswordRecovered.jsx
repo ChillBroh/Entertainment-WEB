@@ -46,6 +46,12 @@ const PasswordRecovered = () => {
             <div className="pt-5 ml-auto mr-auto max-w-[350px] h-auto">
               <img src={emailConfirmed} alt="" />
             </div>
+            <div className="text-[#C7ADCE] text-2xl mb-5 text-center">
+              Password Updated
+            </div>
+            <div className="text-lg mb-5 text-center">
+              Your Password has been Updated
+            </div>
             <Link to={"/login"}>
               <div className="flex mt-5 justify-center">
                 <button

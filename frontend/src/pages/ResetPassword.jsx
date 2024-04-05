@@ -45,15 +45,20 @@ const ResetPassword = () => {
             <div className="text-center mb-2">
               <h1 className="text-5xl">Reset Password</h1>
             </div>
-            <div className="pt-5 ">
-              <img src={resetPass} alt="" />
+            <div className="pt-5 max-h-[400px] flex justify-center">
+              <img src={resetPass} alt="" className="max-h-[350px]" />
             </div>
-            <div className="pt-5 text-lg text-center">
+            <div className="pt-5  text-lg text-center">
               Enter your Email below to send Verification Code
             </div>
-            <div className="mt-5">
-              <Form name="login" onFinish={onFinish} autoComplete="off">
-                <h1 className="text-lg ml-2">Email</h1>
+            <div className="mt-5 ">
+              <Form
+                name="login"
+                onFinish={onFinish}
+                autoComplete="off"
+                className="px-24"
+              >
+                <h1 className="text-lg ml-2 font-bold">Email</h1>
                 <Form.Item
                   name="email"
                   rules={[
@@ -69,7 +74,7 @@ const ResetPassword = () => {
                   hasFeedback
                 >
                   <Input
-                    placeholder="email"
+                    placeholder="Enter Your email"
                     className="w-full rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
                   />
                 </Form.Item>
@@ -86,7 +91,6 @@ const ResetPassword = () => {
                 </div>
               </Form>
             </div>
-            <div></div>
           </div>
         </div>
       )}

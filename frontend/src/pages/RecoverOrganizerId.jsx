@@ -34,26 +34,24 @@ const RecoverOrganizerId = () => {
         <Loader />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
-          <div className="">
-            <img
-              src={bg}
-              alt="login dj"
-              className="object-cover h-full w-full md:max-h-full md:w-auto"
-            />
-          </div>
           <div className="flex flex-col mt-24 px-12 md:pt-10 lg:pt-0 lg:px-20">
             <div className="text-center mb-2">
               <h1 className="text-5xl">Recover Organizer ID</h1>
             </div>
-            <div className="pt-5 ">
-              <img src={emailConfirm} alt="" />
+            <div className="pt-5 max-h-[400px] flex justify-center">
+              <img src={emailConfirm} alt="" className="max-h-[350px]" />
             </div>
             <div className="pt-5 text-lg text-center">
               Enter your Email to send Organizer ID
             </div>
-            <div className="mt-5">
-              <Form name="login" onFinish={onFinish} autoComplete="off">
-                <h1 className="text-lg ml-2">Email</h1>
+            <div className="mt-10">
+              <Form
+                name="login"
+                onFinish={onFinish}
+                autoComplete="off"
+                className="px-24"
+              >
+                <h1 className="text-lg ml-2 font-bold">Email</h1>
                 <Form.Item
                   name="email"
                   rules={[
@@ -69,7 +67,7 @@ const RecoverOrganizerId = () => {
                   hasFeedback
                 >
                   <Input
-                    placeholder="email"
+                    placeholder="Enter Your Email"
                     className="w-full rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
                   />
                 </Form.Item>
@@ -87,6 +85,13 @@ const RecoverOrganizerId = () => {
               </Form>
             </div>
             <div></div>
+          </div>
+          <div className="">
+            <img
+              src={bg}
+              alt="login dj"
+              className="object-cover h-full w-full md:max-h-full md:w-auto"
+            />
           </div>
         </div>
       )}

@@ -55,12 +55,22 @@ const PasswordResetForm = () => {
             <div className="pt-5 max-h-[400px] flex justify-center">
               <img src={resetPassword} alt="" className="max-h-[350px]" />
             </div>
-            <div className="pt-5 text-lg text-center">Create New Password</div>
+            <div className="pt-5 text-2xl text-center text-[#C7ADCE]">
+              Create New Password
+            </div>
+            <div className="text-center mt-5 mb-2 text-lg ">
+              Your New password must be different from previous used Passwords
+            </div>
             <div className="mt-5 px-16">
-              <Form name="login" onFinish={onFinish} autoComplete="off">
+              <Form
+                name="login"
+                onFinish={onFinish}
+                autoComplete="off"
+                className="px-16"
+              >
                 <div className="flex flex-col justify-evenly">
                   <div className="min-w-[250px] ">
-                    <h1 className="text-lg mb-2 ml-2">Password</h1>
+                    <h1 className="text-lg mb-2 ml-2 font-bold">Password</h1>
                     <Form.Item
                       name="password"
                       rules={[
@@ -75,7 +85,9 @@ const PasswordResetForm = () => {
                     </Form.Item>
                   </div>
                   <div className="min-w-[250px] ">
-                    <h1 className="text-lg mb-2 ml-2">Confirm Password</h1>
+                    <h1 className="text-lg mb-2 ml-2 font-bold">
+                      Confirm Password
+                    </h1>
                     <Form.Item
                       name="confirm"
                       dependencies={["password"]}

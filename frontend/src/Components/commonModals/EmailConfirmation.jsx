@@ -14,6 +14,7 @@ const EmailConfirmation = () => {
   const onFinish = async (values) => {
     isLoading(true);
     if (params.email !== values.email) {
+      isLoading(false);
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -54,16 +55,21 @@ const EmailConfirmation = () => {
             <div className="text-center mb-2">
               <h1 className="text-5xl">Email Verificaiton</h1>
             </div>
-            <div className="pt-5 ">
-              <img src={emailConfirm} alt="" />
+            <div className="pt-5 max-h-[400px] flex justify-center">
+              <img src={emailConfirm} alt="" className="max-h-[350px]" />
             </div>
             <div className="pt-5 text-lg text-center">
               Enter your Email Starting With {params.email.substring(0, 3)}
               ******** to Confirm
             </div>
             <div className="mt-5">
-              <Form name="login" onFinish={onFinish} autoComplete="off">
-                <h1 className="text-lg ml-2">Email</h1>
+              <Form
+                name="login"
+                onFinish={onFinish}
+                autoComplete="off"
+                className="px-24"
+              >
+                <h1 className="text-lg ml-2 font-bold">Email</h1>
                 <Form.Item
                   name="email"
                   rules={[

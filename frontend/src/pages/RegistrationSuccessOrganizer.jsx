@@ -23,14 +23,14 @@ const RegistrationSuccessOrganizer = () => {
           authentication Purpose
         </div>
         <div className="mt-5 flex justify-center">
-          <Link to={"/create-event"}>
+          <Link to={"/login-organizer"}>
             <button
               type="submit"
               className="rounded-3xl bg-[#562595] px-24  inline-block pt-2 pb-2 text-md font-medium uppercase text-neutral-50"
               data-twe-ripple-init
               data-twe-ripple-color="light"
             >
-              Create New Event
+              Login
             </button>
           </Link>
         </div>

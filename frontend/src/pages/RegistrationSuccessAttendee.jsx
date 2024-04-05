@@ -9,11 +9,11 @@ const RegistrationSuccessAttendee = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 h-screen">
       <div className="flex flex-col mt-24 px-12 md:pt-10 lg:pt-0 lg:px-20">
-        <div className="text-3xl text-center">
+        <div className="text-3xl text-center mb-16">
           Account Created Successfully!
         </div>
-        <div className="pt-5">
-          <img src={registered} alt="" />
+        <div className="pt-5 max-h-[400px] flex justify-center">
+          <img src={registered} alt="" className="max-h-[350px]" />
         </div>
         <div className="text-md text-center text-[#8B8BAE] mt-5">
           Your Email is{" "}
