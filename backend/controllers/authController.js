@@ -14,19 +14,17 @@ const register = async (req, res, next) => {
 const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
   try {
+    let result;
     if (req.body.orgId) {
-      const orgId = await db.query(
-        "SELECT * FROM organizers WHERE organizerId = ?",
-        [`${req.body.orgId}`]
+      result = await authService.loginUser(
+        email.toLowerCase(),
+        password,
+        req.body.orgId
       );
-      console.log(orgId);
-      if (orgId[0].length == 0) {
-        const error = new Error("Invalid Organizer Id!");
-        error.statusCode = 404;
-        throw error;
-      }
+    } else {
+      result = await authService.loginUser(email.toLowerCase(), password);
     }
-    const result = await authService.loginUser(email, password);
+
     res.cookie("jwt", result.token, result.cookieOptions);
     res.status(201).json({
       status: result.status,
@@ -40,7 +38,7 @@ const loginUser = async (req, res, next) => {
 const sendEmailVerify = async (req, res, next) => {
   const { email } = req.params;
   try {
-    const result = await authService.sendEmailagain(email);
+    const result = await authService.sendEmailagain(email.toLowerCase());
     res.status(201).json({
       message: "Verification Email Has sent!",
     });
@@ -52,7 +50,7 @@ const sendEmailVerify = async (req, res, next) => {
 const sendTokenVerify = async (req, res, next) => {
   const { email } = req.params;
   try {
-    const result = await authService.sendToken(email);
+    const result = await authService.sendToken(email.toLowerCase());
     res.status(201).json({
       message: "Verification Email Has sent!",
     });
@@ -63,7 +61,7 @@ const sendTokenVerify = async (req, res, next) => {
 const otpVerify = async (req, res, next) => {
   const { email, otp } = req.body;
   try {
-    const result = await authService.otpConfirm(email, otp);
+    const result = await authService.otpConfirm(email.toLowerCase(), otp);
     res.status(201).json({
       result,
     });
@@ -74,7 +72,7 @@ const otpVerify = async (req, res, next) => {
 const emailVerify = async (req, res, next) => {
   const { email, token } = req.params;
   try {
-    const result = await authService.emailConfirm(email, token);
+    const result = await authService.emailConfirm(email.toLowerCase(), token);
     res.status(201).json({
       result,
     });
@@ -98,6 +96,21 @@ const logout = (req, res, next) => {
   }
 };
 
+const resetPassword = async (req, res, next) => {
+  const { email, password } = req.body;
+  try {
+    const result = await authService.resetPassword(
+      email.toLowerCase(),
+      password
+    );
+    res.status(200).json({
+      result,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   register,
   loginUser,
@@ -106,4 +119,5 @@ module.exports = {
   logout,
   sendTokenVerify,
   otpVerify,
+  resetPassword,
 };

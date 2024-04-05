@@ -19,6 +19,8 @@ import HeaderHome from "./Layouts/HeaderHome";
 import HeaderAuthenticate from "./Layouts/HeaderAuthenticated";
 import AddChats from "./pages/chat/AddChats";
 import OTPVerification from "./Components/commonModals/OTPVerification";
+import PasswordResetForm from "./pages/PasswordResetForm";
+import PasswordRecovered from "./Components/commonModals/PasswordRecovered";
 function App() {
   const ProtectedRoute = ({ children }) => {
     const isAuthenticated = localStorage.getItem("jsonwebtoken") ? true : false;
@@ -65,7 +67,6 @@ function App() {
             element={<RegistrationSuccessAttendee />}
           />
           <Route path="/create-event" element={<CreateEvent />} />
-          <Route path="/reset-password" element={<ResetPassword />}></Route>
           <Route
             path="/email-verification/:email"
             element={<EmailConfirmation />}
@@ -82,6 +83,11 @@ function App() {
             path="/auth/:email/verify/:token"
             element={<EmailVerifiedPage />}
           />
+          <Route
+            path="/reset-password/:email"
+            element={<PasswordResetForm />}
+          />
+          <Route path="/password-recoverd" element={<PasswordRecovered />} />
         </Routes>
       </BrowserRouter>
     </div>

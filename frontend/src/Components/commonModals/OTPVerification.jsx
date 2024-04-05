@@ -14,13 +14,13 @@ const OTPVerification = () => {
       const email = params.email;
       const otp = values.code;
       const res = await axios.post(
-        `http://localhost:5000/api/v1/auth/reset-pass`,
+        `http://localhost:5000/api/v1/auth/reset-pass/otp`,
         {
           email,
           otp,
         }
       );
-      // navigate(`/confirmation-sent/${values.email}`);
+      navigate(`/reset-password/${email}`);
     } catch (err) {
       Swal.fire({
         icon: "error",

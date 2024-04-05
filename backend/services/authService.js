@@ -126,20 +126,33 @@ const registerUser = async (req) => {
   }
 };
 
-const loginUser = async (email, password) => {
+const loginUser = async (email, password, organizerId = null) => {
   try {
     if (!email || !password) {
       throw new Error("Email and Password Required!");
     }
     const [rows] = await db.query("SELECT * FROM users WHERE email LIKE ?", [
-      `%${email}%`,
+      `${email}`,
     ]);
+
     if (rows.length == 0) {
       const error = new Error("User Not Found!");
       error.statusCode = 404;
       throw error;
     }
     const user = rows[0];
+    if (user.role === "Organizer") {
+      const orgId = await db.query(
+        "SELECT * FROM organizers WHERE organizerId = ?",
+        [`${organizerId}`]
+      );
+      console.log(orgId);
+      if (orgId[0].length == 0) {
+        const error = new Error("Invalid Organizer Id!");
+        error.statusCode = 404;
+        throw error;
+      }
+    }
     //check email confirm
     if (!user.confirmed) {
       throw new Error("Please Verify Your Email!");
@@ -219,6 +232,23 @@ const otpConfirm = async (email, otp) => {
     throw error;
   }
 };
+
+//reset password
+const resetPassword = async (email, password) => {
+  //password hashing
+  const saltRounds = 10;
+  const salt = await bcryptjs.genSalt(saltRounds);
+  const hash = await bcryptjs.hash(password, salt);
+  const resetQuery = await db.query(
+    "UPDATE users SET password = ? WHERE email = ?",
+    [`${hash}`, `${email}`]
+  );
+
+  console.log(resetQuery[0]);
+  if (resetQuery[0].affectedRows === 0) {
+    throw new Error("Password Reset Failed!");
+  }
+};
 //created token
 const signToken = (email, confirmed, role) => {
   return jwt.sign({ email, confirmed, role }, process.env.JWT_SECRET, {
@@ -252,4 +282,5 @@ module.exports = {
   sendEmailagain,
   sendToken,
   otpConfirm,
+  resetPassword,
 };
