@@ -20,14 +20,14 @@ const RegistrationSuccessAttendee = () => {
           <span className="text-lg text-[#562595]">"{params.email}"</span>
         </div>
         <div className="mt-5 flex justify-center">
-          <Link to={"/create-event"}>
+          <Link to={"/login-attendee"}>
             <button
               type="submit"
               className="rounded-3xl bg-[#562595] px-24  inline-block pt-2 pb-2 text-md font-medium uppercase text-neutral-50"
               data-twe-ripple-init
               data-twe-ripple-color="light"
             >
-              Create New Event
+              login
             </button>
           </Link>
         </div>

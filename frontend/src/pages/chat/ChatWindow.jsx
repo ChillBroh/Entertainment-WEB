@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import HeaderAuthenticate from "../../Layouts/HeaderAuthenticated";
 import Footer from "../../Layouts/Footer";
 import logo from "../../Components/Assets/logoHeader.png";
@@ -12,6 +12,7 @@ const ChatWindow = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [selectedChat, setSelectedChat] = useState(null);
+  const chatContainerRef = useRef(null);
 
   useEffect(() => {
     const getChatDetails = async () => {
@@ -52,7 +53,7 @@ const ChatWindow = () => {
             config
           );
           setMessages(messages.data);
-          console.log(selectedChat);
+          scrollToBottom();
         } catch (error) {
           console.error("Error fetching messages:", error);
         }
@@ -80,10 +81,9 @@ const ChatWindow = () => {
         alert("bye");
       } else {
         const newMessageData = response.data;
-        console.log(newMessageData);
         setMessages([...messages, newMessageData]);
         setNewMessage("");
-        console.log(messages);
+        scrollToBottom();
       }
     } catch (error) {
       console.error("Error adding message:", error);
@@ -92,6 +92,14 @@ const ChatWindow = () => {
 
   const isOrganizer = true;
 
+  // Function to scroll to the bottom of the chat container
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  };
+
   return (
     <div>
       <HeaderAuthenticate />
@@ -99,16 +107,13 @@ const ChatWindow = () => {
         <div className=" px-16 grid grid-cols-2 bg-[#C7ADCE]">
           <div className="bg-[#562595]">
             <div className="px-10 mt-5 box-border max-h-[50px] flex sm:flex-row justify-start">
-              <input
-                type="text"
-                placeholder="Search The Event"
-                className="max-h-[70px] p-3 text-lg w-full rounded-lg"
-              />
+              {/* Search input */}
             </div>
             <div
               style={{ maxHeight: "60vh" }}
               className="grid mt-10 grid-rows px-16  text-white overflow-y-auto"
             >
+              {/* Chat list */}
               {chats.map((chat, index) => (
                 <React.Fragment key={index}>
                   <button onClick={() => setSelectedChat(chat)}>
@@ -151,7 +156,7 @@ const ChatWindow = () => {
               </Link>
             </div>
           </div>
-          <div className="bg-white grid grid-rows">
+          <div className="bg-white grid grid-rows" ref={chatContainerRef}>
             <div className="p-2 bg-[#EEF1F4] flex sm:flex-row justify-start">
               <img
                 src={logo}

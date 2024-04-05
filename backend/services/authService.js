@@ -206,4 +206,9 @@ const createSendToken = (user) => {
   };
 };
 
-module.exports = { registerUser, loginUser, emailConfirm, sendEmailagain };
+module.exports = {
+  registerUser,
+  loginUser,
+  emailConfirm,
+  sendEmailagain,
+};

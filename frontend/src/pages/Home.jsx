@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import bg from "../Components/Assets/dj-playing-and-mixing-music-in-nightclub-party-at-night-edm-dance-music-club-with-crowd-of-young-people-free-photo.jpg";
 import { Link } from "react-router-dom";
 import HeaderHome from "../Layouts/HeaderHome";
 
 const Home = () => {
+  const [isAuthenticate, setAuthenticate] = useState(false);
+  useEffect(() => {
+    const checkLocal = () => {
+      if (localStorage.getItem("jsonwebtoken")) {
+        setAuthenticate(true);
+      }
+    };
+    checkLocal();
+  });
   return (
     <div>
       <HeaderHome />
@@ -42,16 +51,18 @@ const Home = () => {
                     Go to Events
                   </button>
                 </Link>
-                <Link to={"/login"}>
-                  <button
-                    type="button"
-                    className="rounded-lg bg-[#562595] px-36 inline-block pt-2 pb-2 text-xl font-medium uppercase text-neutral-50"
-                    data-twe-ripple-init
-                    data-twe-ripple-color="light"
-                  >
-                    Log in
-                  </button>
-                </Link>
+                {!isAuthenticate && (
+                  <Link to={"/login"}>
+                    <button
+                      type="button"
+                      className="rounded-lg bg-[#562595] px-36 inline-block pt-2 pb-2 text-xl font-medium uppercase text-neutral-50"
+                      data-twe-ripple-init
+                      data-twe-ripple-color="light"
+                    >
+                      Log in
+                    </button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>

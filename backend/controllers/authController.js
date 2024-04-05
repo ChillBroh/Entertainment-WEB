@@ -31,6 +31,7 @@ const loginUser = async (req, res, next) => {
     res.status(201).json({
       status: result.status,
       token: result.token,
+      role: result.role,
     });
   } catch (error) {
     next(error);
@@ -60,4 +61,18 @@ const emailVerify = async (req, res, next) => {
   }
 };
 
-module.exports = { register, loginUser, emailVerify, sendEmailVerify };
+const logout = (req, res, next) => {
+  try {
+    res.cookie("jwt", "loggedout", {
+      expires: new Date(Date.now() + 10 * 1000),
+      httpOnly: true,
+    });
+    res.status(200).json({
+      status: "success",
+      message: "logged Out!",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+module.exports = { register, loginUser, emailVerify, sendEmailVerify, logout };
