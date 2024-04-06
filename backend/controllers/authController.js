@@ -12,18 +12,14 @@ const register = async (req, res, next) => {
 };
 
 const loginUser = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password, type, orgId } = req.body;
   try {
-    let result;
-    if (req.body.orgId) {
-      result = await authService.loginUser(
-        email.toLowerCase(),
-        password,
-        req.body.orgId
-      );
-    } else {
-      result = await authService.loginUser(email.toLowerCase(), password);
-    }
+    const result = await authService.loginUser(
+      email.toLowerCase(),
+      password,
+      type,
+      orgId
+    );
 
     res.cookie("jwt", result.token, result.cookieOptions);
     res.status(201).json({

@@ -124,20 +124,31 @@ const registerUser = async (req) => {
   }
 };
 
-const loginUser = async (email, password, organizerId = null) => {
+const loginUser = async (email, password, type, organizerId) => {
   try {
+    console.log(email, password, organizerId, type);
     if (!email || !password) {
       throw new Error("Email and Password Required!");
     }
     const [rows] = await db.query("SELECT * FROM users WHERE email LIKE ?", [
       `${email}`,
     ]);
-
     if (rows.length == 0) {
       const error = new Error("User Not Found!");
       error.statusCode = 404;
       throw error;
     }
+    const fullName = rows[0].fullName;
+    if (type === 1 && rows[0].role !== "Attendee") {
+      throw new Error(
+        `Hello ${fullName},This is attendee login,please login with your attendee account!`
+      );
+    } else if (type === 2 && rows[0].role !== "Organizer") {
+      throw new Error(
+        `Hello ${fullName},This is Organizer login, please login with your Organizer account!`
+      );
+    }
+
     const user = rows[0];
     if (user.role === "Organizer") {
       const orgId = await db.query(
@@ -150,10 +161,6 @@ const loginUser = async (email, password, organizerId = null) => {
         throw error;
       }
     }
-    //check email confirm
-    if (!user.confirmed) {
-      throw new Error("Please Verify Your Email!");
-    }
 
     //check password
     let passwordMatch;
@@ -165,6 +172,10 @@ const loginUser = async (email, password, organizerId = null) => {
       .catch((err) => console.error(err.message));
 
     if (passwordMatch) {
+      //check email confirm
+      if (!user.confirmed) {
+        throw new Error("Please Verify Your Email!");
+      }
       return createSendToken(user);
     } else {
       const error = new Error("Unauthorized");

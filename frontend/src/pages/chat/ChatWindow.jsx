@@ -97,12 +97,15 @@ const ChatWindow = () => {
         console.log(messages);
       }
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: error.response.data.message,
-      });
+      setTimeout(() => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Error adding messages",
+        });
+      }, 500);
       console.error("Error adding message:", error);
+      return;
     }
   };
 

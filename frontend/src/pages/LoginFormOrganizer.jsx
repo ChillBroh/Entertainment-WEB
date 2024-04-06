@@ -15,6 +15,7 @@ const LoginFormOrganizer = () => {
       const res = await axios.post("http://localhost:5000/api/v1/auth/login", {
         email: values.email,
         password: values.password,
+        type: 2,
         orgId: values.id,
       });
       console.log(res.data);
